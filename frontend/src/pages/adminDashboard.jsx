@@ -857,7 +857,7 @@ const confirmDeleteQuestion = (questionId) => {
                         updateAnswer(q.tempId ?? q.id, aIndex, "answer_text", e.target.value)
                       }
                       className="border px-2 py-1 rounded w-full"
-                      placeholder="Answer"
+                      placeholder="תשובה"
                     />
                     <input
                       type="radio"
