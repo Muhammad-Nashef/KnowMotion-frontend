@@ -36,7 +36,7 @@ export default function AdminDashboard() {
 
   /* ===================== LOAD MAIN CATEGORIES ===================== */
   useEffect(() => {
-  fetch("http://localhost:5000/main-categories")
+  fetch("https://knowmotion.onrender.com/main-categories")
     .then(res => res.json())
     .then(data => {
       setMainCategories(data);
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
   /* ===================== LOAD SUB CATEGORIES ===================== */
   useEffect(() => {
   const token = localStorage.getItem("token"); // get the JWT from localStorage
-  fetch("http://localhost:5000/all-subcategories", {
+  fetch("https://knowmotion.onrender.com/all-subcategories", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
 
   // אחרת → פתח כרגיל
   setSelectedSub(sub);
-  fetch(`http://localhost:5000/subcategories/${sub.id}/questions`)
+  fetch(`https://knowmotion.onrender.com/subcategories/${sub.id}/questions`)
     .then(res => res.json())
     .then(data => {
       setQuestions(data);
@@ -146,7 +146,7 @@ async function removeImage(qIndex, img_url) {
   try {
     // Call backend to delete image from Cloudinary
     const token = localStorage.getItem("token"); // get the JWT from localStorage
-    const res = await fetch("http://localhost:5000/questions/delete-image", {
+    const res = await fetch("https://knowmotion.onrender.com/questions/delete-image", {
       method: "POST",
       headers: {
       "Content-Type": "application/json",
@@ -171,7 +171,7 @@ async function removeImage(qIndex, img_url) {
 
 const confirmDeleteSubCategory = async (subId) => {
   const token = localStorage.getItem("token"); // get the JWT from localStorage
-  await fetch(`http://localhost:5000/subcategories/${subId}`, {
+  await fetch(`https://knowmotion.onrender.com/subcategories/${subId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -325,7 +325,7 @@ const handleImageUpload = async (e) => {
     }
   }
     const token = localStorage.getItem("token"); // get the JWT from localStorage
-    fetch("http://localhost:5000/questions/update", {
+    fetch("https://knowmotion.onrender.com/questions/update", {
       method: "POST",
       headers: {
       "Content-Type": "application/json",
@@ -348,12 +348,12 @@ const handleImageUpload = async (e) => {
         setEditedRows([]);
         setDeletedQuestionIds([]);
 // ✅ 1. Reload questions of selected subcategory
-      fetch(`http://localhost:5000/subcategories/${selectedSub.id}/questions`)
+      fetch(`https://knowmotion.onrender.com/subcategories/${selectedSub.id}/questions`)
         .then(res => res.json())
         .then(setQuestions);
 
         // reload subcategories to be 100% accurate
-  fetch("http://localhost:5000/all-subcategories", {
+  fetch("https://knowmotion.onrender.com/all-subcategories", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -373,7 +373,7 @@ const handleImageUpload = async (e) => {
   setSubError(false);
     const imageUrlToSend = newSubImage || def_icon;
     const token = localStorage.getItem("token"); // get the JWT from localStorage
-  fetch("http://localhost:5000/subcategories/create", {
+  fetch("https://knowmotion.onrender.com/subcategories/create", {
     
     method: "POST",
     headers: {
@@ -389,7 +389,7 @@ const handleImageUpload = async (e) => {
   })
     .then(res => res.json())
     .then(() => { 
-      fetch("http://localhost:5000/all-subcategories", {
+      fetch("https://knowmotion.onrender.com/all-subcategories", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -468,7 +468,7 @@ const handleSave = async () => {
     // 1️⃣ delete old icon via backend
     if (editSub.newIconFile && editSub.image_public_id) {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/subcategories/delIcon/${editSub.id}`, {
+      await fetch(`https://knowmotion.onrender.com/subcategories/delIcon/${editSub.id}`, {
         method: "PUT",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -492,7 +492,7 @@ const handleSave = async () => {
   const token = localStorage.getItem("token"); // get the JWT from localStorage
   // 2️⃣ שמירת נתונים (תמיד!)
   try {
-    const res = await fetch(`http://localhost:5000/subcategories/${editSub.id}`, {
+    const res = await fetch(`https://knowmotion.onrender.com/subcategories/${editSub.id}`, {
       method: "PUT",
       headers: {
       "Content-Type": "application/json",
