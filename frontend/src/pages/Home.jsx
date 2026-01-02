@@ -8,7 +8,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/main-categories")
+    fetch("https://knowmotion.onrender.com/main-categories")
       .then(res => res.json())
       .then(data => setMainCategories(data));
   }, []);

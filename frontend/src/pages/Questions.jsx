@@ -15,11 +15,11 @@ export default function Questions() {
 
   useEffect(() => {
   const qFetch = fetch(
-    `http://127.0.0.1:5000/questions/by-sub-category/${subCategoryId}`
+    `https://knowmotion.onrender.com/questions/by-sub-category/${subCategoryId}`
   ).then(r => r.json());
 
   const scFetch = fetch(
-    `http://127.0.0.1:5000/sub-category-details/${subCategoryId}`
+    `https://knowmotion.onrender.com/sub-category-details/${subCategoryId}`
   ).then(r => r.json());
 
   Promise.all([qFetch, scFetch])
@@ -43,7 +43,7 @@ export default function Questions() {
   if (answersState[questionId]) return;
 
   try {
-    const res = await fetch("http://127.0.0.1:5000/answers/check", {
+    const res = await fetch("https://knowmotion.onrender.com/answers/check", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

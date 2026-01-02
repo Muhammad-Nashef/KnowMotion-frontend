@@ -11,7 +11,7 @@ export default function SubCategories() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/sub-categories/${mainCategoryId}`)
+    fetch(`https://knowmotion.onrender.com/sub-categories/${mainCategoryId}`)
       .then(res => res.json())
       .then(data => {
         setSubCategories(data.sub_categories);  
