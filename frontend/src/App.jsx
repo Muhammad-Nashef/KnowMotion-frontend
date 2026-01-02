@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 // Pages
 import Home from "./pages/Home";
 import Questions from "./pages/Questions";
@@ -9,32 +9,23 @@ import Layout from "../src/layouts/Layout.jsx";
 // Route Protection
 import AdminRoute from "./routes/AdminRoute";
 
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-
-      <Routes>
-        {/* Public Layout */}
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/sub-categories/:mainCategoryId" element={<SubCategories />} />
-          <Route path="/questions/:subCategoryId" element={<Questions />} />
-
-          {/* Protected Admin Dashboard */}
-          <Route
-            path="/admin-dashboard"
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            }
-          />
+    <>
+    <ScrollToTop/>
+    <Routes>
+      {/* Public Layout*/}
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/sub-categories/:mainCategoryId" element={<SubCategories />} />
+        <Route path="/questions/:subCategoryId" element={<Questions />} />
+        {/* Protected Admin Dashboard */}
+        <Route path="/admin-dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>}/>
         </Route>
-      </Routes>
-    </BrowserRouter>
+    </Routes>
+      </>
   );
 }
 
