@@ -48,7 +48,7 @@ export default function SubCategories() {
       onClick={() => navigate(`/questions/${sub.id}`)}
       isDark={isDark}
       answered={answered}
-      total={sub.questions_count} // if you have it from backend
+      total={sub.questions_count || answered}
     />
   );
 })}
