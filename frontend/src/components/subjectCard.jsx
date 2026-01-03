@@ -9,20 +9,20 @@ const SubjectCard = ({ name, image, onClick, isDark, answered = 0, total = 0, cl
       className={`${isDark ? "bg-[#404040] border-zinc-800" : "bg-gray-300 border-gray-500"} relative rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-accent-primary ${className}`}
       whileHover={{ scale: 1.04, boxShadow: "0 0 50px #388bd4ff" }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 260 }}
+      transition={{ type: "spring", stiffness: 360 }}
     >
       {/* ====================== PROGRESS BACKGROUND ====================== */}
       {progress > 0 && progress < 100 && (
-        <div
-          className="absolute inset-0 rounded-2xl"
-          style={{
-            background: isDark
-              ? `linear-gradient(to top, rgba(72,187,120,0.25) ${progress}%, transparent ${progress}%)`
-              : `linear-gradient(to top, rgba(72,187,120,0.2) ${progress}%, transparent ${progress}%)`,
-            zIndex: 0,
-          }}
-        ></div>
-      )}
+  <div
+    className="absolute inset-0 rounded-2xl"
+    style={{
+      background: isDark
+        ? `linear-gradient(to right, rgba(72,187,120,0.25) ${progress}%, transparent ${progress}%)`
+        : `linear-gradient(to right, rgba(72,187,120,0.2) ${progress}%, transparent ${progress}%)`,
+      zIndex: 0,
+    }}
+  ></div>
+)}
 
       {/* ====================== COMPLETED ====================== */}
       {progress === 100 && (
