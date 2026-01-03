@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
 
-const SubjectCard = ({ name, image, onClick,isDark, className="" }) => {
+const SubjectCard = ({ name, image, onClick,isDark, answered =0, total = 0, className="" }) => {
+
+  const progress =
+  total > 0 ? Math.round((answered / total) * 100) : 0;
+
   return (
     <motion.div
       onClick={onClick}
       className={`${isDark ? "bg-[#404040] border-zinc-800" : "bg-gray-300 border-gray-500"} backdrop-blur
 
-  rounded-2xl p-8
+  relative rounded-2xl p-8
   flex flex-col items-center justify-center
   cursor-pointer
   transition-all duration-10
@@ -19,6 +23,24 @@ const SubjectCard = ({ name, image, onClick,isDark, className="" }) => {
 whileTap={{ scale: 0.98 }}
 transition={{ type: "spring", stiffness: 260 }}
     >
+
+      {/* COMPLETED */}
+{progress === 100 && (
+  <span className="absolute top-3 right-3 text-green-500 text-xl font-bold">
+    ✓
+  </span>
+)}
+
+{/* IN PROGRESS */}
+{progress > 0 && progress < 100 && (
+  <span
+    className="absolute top-3 right-3 text-xs font-semibold
+    text-green-700 bg-green-100 px-2 py-1 rounded-full"
+  >
+    {progress}%
+  </span>
+)}
+
       <img
   src={image}
   alt={name}

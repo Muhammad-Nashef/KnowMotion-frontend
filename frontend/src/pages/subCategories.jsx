@@ -19,20 +19,41 @@ export default function SubCategories() {
       });
   }, [mainCategoryId]);
 
+  const getProgressForSub = (subId) => {
+  const allProgress =
+    JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
+
+  const answers = allProgress[subId]?.answers || {};
+  const answeredCount = Object.keys(answers).length;
+
+  return answeredCount;
+};
+
+
   return (
     <div className={`page-container ${isDark ? "theme-dark" : "theme-light"}`}>
       <div className="px-6 py-16 flex-1">
         <h1 className="page-title">{mainCategoryName}</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {subCategories.map((sub) => (
-            <SubjectCard
-              key={sub.id}
-              name={sub.name}
-              image={sub.image_url}
-              onClick={() => navigate(`/questions/${sub.id}`)}
-              isDark={isDark}
-            />
-          ))}
+
+
+          {subCategories.map((sub) => {
+  const answered = getProgressForSub(sub.id);
+
+  return (
+    <SubjectCard
+      key={sub.id}
+      name={sub.name}
+      image={sub.image_url}
+      onClick={() => navigate(`/questions/${sub.id}`)}
+      isDark={isDark}
+      answered={answered}
+      total={sub.questions_count} // if you have it from backend
+    />
+  );
+})}
+
+
         </div>
       </div>
     </div>
