@@ -9,6 +9,7 @@ export default function SubCategories() {
   const [subCategories, setSubCategories] = useState([]);
   const [mainCategoryName, setMainCategoryName] = useState("");
   const navigate = useNavigate();
+  const [dummy, setDummy] = useState(0);
 
   useEffect(() => {
     fetch(`https://knowmotion.onrender.com/sub-categories/${mainCategoryId}`)
@@ -18,6 +19,13 @@ export default function SubCategories() {
         setMainCategoryName(data.main_category.name);
       });
   }, [mainCategoryId]);
+
+  // Trigger re-render when window gains focus (back navigation)
+  useEffect(() => {
+    const handleFocus = () => setDummy(prev => prev + 1);
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
 
   const getProgressForSub = (subId) => {
   const allProgress =
