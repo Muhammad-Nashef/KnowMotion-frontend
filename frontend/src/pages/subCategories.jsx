@@ -30,7 +30,7 @@ export default function SubCategories() {
   }
 
   const answered = Object.keys(subProgress.answers || {}).length;
-    const total = subProgress.total || 0;
+  const total = subProgress.total || 0;
 
     return { answered, total };
 };
