@@ -10,6 +10,7 @@ export default function SubCategories() {
   const [mainCategoryName, setMainCategoryName] = useState("");
   const navigate = useNavigate();
   const [dummy, setDummy] = useState(0);
+  const [, setRerender] = useState(0);
 
   useEffect(() => {
     fetch(`https://knowmotion.onrender.com/sub-categories/${mainCategoryId}`)
@@ -21,8 +22,8 @@ export default function SubCategories() {
   }, [mainCategoryId]);
 
   useEffect(() => {
-  const handleFocus = () => setDummy(prev => prev + 1);
-  const handleStorage = () => setDummy(prev => prev + 1); // triggers if localStorage changes
+  const handleFocus = () => setRerender(prev => prev + 1);
+  const handleStorage = () => setRerender(prev => prev + 1);
 
   window.addEventListener("focus", handleFocus);
   window.addEventListener("storage", handleStorage);
@@ -59,7 +60,7 @@ export default function SubCategories() {
 
   return (
     <SubjectCard
-      key={`${sub.id}-${dummy}`}
+      key={`${sub.id}-${answered}-${total}`}
       name={sub.name}
       image={sub.image_url}
       onClick={() => navigate(`/questions/${sub.id}`)}
