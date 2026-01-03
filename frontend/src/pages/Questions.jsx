@@ -28,13 +28,27 @@ export default function Questions() {
   Promise.all([qFetch, scFetch])
     .then(([qData, scData]) => {
       setQuestions(qData || []);
-      setSubjectName(scData.name); // Sub-category title
+      setSubjectName(scData.name);
       const saved =
-  JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
+        JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
 
-if (saved[subCategoryId]?.answers) {
-  setAnswersState(saved[subCategoryId].answers);
-}
+      const existing = saved[subCategoryId] || {};
+
+      saved[subCategoryId] = {
+        ...existing,
+        total: qData.length, 
+        answers: existing.answers || {}
+      };
+
+      localStorage.setItem(
+        "knowmotion_progress",
+        JSON.stringify(saved)
+      );
+
+      if (existing.answers) {
+        setAnswersState(existing.answers);
+      }
+      /* ================================ */
 
       setLoading(false);
     })

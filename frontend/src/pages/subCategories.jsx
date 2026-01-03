@@ -23,12 +23,17 @@ export default function SubCategories() {
   const allProgress =
     JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
 
-  const answers = allProgress[subId]?.answers || {};
-  const answeredCount = Object.keys(answers).length;
+  const subProgress = allProgress[subId];
 
-  return answeredCount;
+  if (!subProgress) {
+    return { answered: 0, total: 0 };
+  }
+
+  const answered = Object.keys(subProgress.answers || {}).length;
+    const total = subProgress.total || 0;
+
+    return { answered, total };
 };
-
 
   return (
     <div className={`page-container ${isDark ? "theme-dark" : "theme-light"}`}>
@@ -48,7 +53,7 @@ export default function SubCategories() {
       onClick={() => navigate(`/questions/${sub.id}`)}
       isDark={isDark}
       answered={answered}
-      total={sub.questions_count || answered}
+      total={total}
     />
   );
 })}
