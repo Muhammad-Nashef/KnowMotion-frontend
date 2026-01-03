@@ -43,7 +43,7 @@ export default function SubCategories() {
 
 
           {subCategories.map((sub) => {
-  const answered = getProgressForSub(sub.id);
+  const {answered,total} = getProgressForSub(sub.id);
 
   return (
     <SubjectCard
