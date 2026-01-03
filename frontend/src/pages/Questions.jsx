@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaArrowRight, FaRedo } from "react-icons/fa";
 
 export default function Questions() {
 
@@ -12,6 +14,7 @@ export default function Questions() {
   const [subjectName, setSubjectName] = useState("");
   const [loading, setLoading] = useState(true);
   const [answersState, setAnswersState] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
   const qFetch = fetch(
@@ -26,6 +29,13 @@ export default function Questions() {
     .then(([qData, scData]) => {
       setQuestions(qData || []);
       setSubjectName(scData.name); // Sub-category title
+      const saved =
+  JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
+
+if (saved[subCategoryId]?.answers) {
+  setAnswersState(saved[subCategoryId].answers);
+}
+
       setLoading(false);
     })
     .catch(err => {
@@ -57,14 +67,29 @@ export default function Questions() {
 
     const data = await res.json();
 
-    setAnswersState(prev => ({
-      ...prev,
-      [questionId]: {
-        selected: answerId,
-        isCorrect: data.correct,
-        correctAnswerId: data.correct_answer_id
-      }
-    }));
+    setAnswersState(prev => {
+  const updated = {
+    ...prev,
+    [questionId]: {
+      selected: answerId,
+      isCorrect: data.correct,
+      correctAnswerId: data.correct_answer_id
+    }
+  };
+
+  const allProgress =
+    JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
+
+  allProgress[subCategoryId] = {
+    answers: updated
+  };
+
+  localStorage.setItem(
+    "knowmotion_progress",
+    JSON.stringify(allProgress)
+  );
+
+  return updated;});
 
   } catch (err) {
     console.error("Answer check failed", err);
@@ -75,8 +100,56 @@ export default function Questions() {
   const answeredCount = Object.keys(answersState).length;
   const percentAnswered = Math.round((answeredCount / total) * 100);
 
+
+const resetProgress = () => {
+  const allProgress =
+    JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
+
+  delete allProgress[subCategoryId];
+
+  localStorage.setItem(
+    "knowmotion_progress",
+    JSON.stringify(allProgress)
+  );
+
+  setAnswersState({});
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+
+
   return (
-    <div className = {`${isDark ? "bg-[#212121] text-white": "bg-white text-black"} min-h-screen p-6 mx-auto max-w-6xl`}>
+    <div className = {`${isDark ? "bg-[#212121] text-white": "bg-white text-black"} min-h-screen`}>
+      
+
+              {/* STICKY CONTROLS */}
+<div className="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-zinc-800">
+  <div
+    dir="rtl"
+    className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+  >
+    {/* Back */}
+    <button
+      onClick={() => navigate(-1)}
+      className="flex items-center gap-2 px-4 py-2 rounded-full
+      bg-zinc-800 hover:bg-zinc-700 text-white transition"
+    >
+      <FaArrowRight />
+      חזרה
+    </button>
+
+    {/* Restart */}
+    <button
+      onClick={resetProgress}
+      className="flex items-center gap-2 px-4 py-2 rounded-full
+      bg-rose-600/90 hover:bg-rose-600 text-white transition"
+    >
+      <FaRedo />
+      התחל מחדש
+    </button>
+  </div>
+</div>
+      
       {/* Title */}
       <h1 className="text-3xl font-bold text-center mb-2 text-[#3477B2]">
          שאלות {subjectName}

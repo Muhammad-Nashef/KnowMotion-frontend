@@ -28,6 +28,8 @@ export default function AdminDashboard() {
   const [editSub, setEditSub] = useState(null);
   const [saving, setSaving] = useState(false);
   const showUpdateButton = questions.length > 0 || deletedQuestionIds.length > 0;
+  const questionsRef = useRef(null);
+
 
   const def_icon =
   "https://res.cloudinary.com/davjzk9oi/image/upload/v1766512083/default_icon_nlybfx.png";
@@ -94,6 +96,11 @@ export default function AdminDashboard() {
     .then(data => {
       setQuestions(data);
       setEditedRows([]);
+
+      setTimeout(() => {
+        questionsRef.current?.scrollIntoView({ behavior: "smooth",
+          block: "start", });
+         },100);
     });
 };
 
@@ -585,11 +592,14 @@ const confirmDeleteQuestion = (questionId) => {
           <motion.div
   key={sub.id}
   whileHover={{ scale: 1.05 }}
-  className="relative group flex flex-col items-center justify-center
+  className={`relative group flex flex-col items-center justify-center
   w-36 h-36 rounded-full bg-blue-500 text-white cursor-pointer
   transition-all duration-300
-  hover:-translate-y-1
-  "
+  hover:-translate-y-1 ${
+    selectedSub?.id === sub.id
+      ? "bg-blue-700 ring-4 ring-blue-300 shadow-2xl"
+      : "bg-blue-500"}`
+    }
   onClick={() => handleSubClick(sub)}
 >
 
@@ -602,6 +612,16 @@ const confirmDeleteQuestion = (questionId) => {
     }`}
   >
     {sub.main_category_id === 1 ? <FaCogs size={14} /> : <FaBolt size={14} />}
+    {/* Tooltip */}
+  <span
+    className="absolute -bottom-8 left-1/2 -translate-x-1/2
+      whitespace-nowrap px-2 py-1 text-xs rounded
+      bg-black text-white opacity-0 scale-95
+      group-hover/badge:opacity-100 group-hover/badge:scale-100
+      transition-all duration-200 pointer-events-none"
+  >
+    {sub.main_category_id === 1 ? "מכני" : "חשמל"}
+  </span>
   </span>
   
 
@@ -624,7 +644,15 @@ const confirmDeleteQuestion = (questionId) => {
     </div>
 
   {/* Spinning border like Spinner 1 */}
-  <span className="absolute inset-0 rounded-full border-4 border-blue-300 border-t-blue-500 animate-spin"></span>
+  <span className={`
+    absolute inset-0 rounded-full border-4
+    border-blue-300 border-t-blue-500
+    ${
+      selectedSub?.id === sub.id
+        ? "animate-none opacity-40"
+        : "animate-spin"
+    }
+  `}></span>
         
   {/* Circle content (on top of spinner) */}
   <div className="z-10 flex flex-col items-center justify-center select-none">
@@ -646,7 +674,7 @@ const confirmDeleteQuestion = (questionId) => {
       {/* QUESTIONS */}
       <AnimatePresence>
         {selectedSub && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <motion.div ref={questionsRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="flex items-center gap-2 mb-4">
   <h2 className="text-xl font-semibold">{selectedSub.name}</h2>
 
@@ -867,10 +895,6 @@ const confirmDeleteQuestion = (questionId) => {
                         updateAnswer(q.tempId ?? q.id, aIndex, "is_correct", true)
                       }
                     />
-                    {/*
-                    <button onClick={() => deleteAnswer(q.tempId ?? q.id, aIndex)} className="text-red-500">
-                      <FaTrash />
-                    </button>*/}
                   </div>
                 ))}
                 
