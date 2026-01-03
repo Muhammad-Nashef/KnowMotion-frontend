@@ -20,17 +20,21 @@ export default function SubCategories() {
       });
   }, [mainCategoryId]);
 
-  // Trigger re-render when window gains focus (back navigation)
   useEffect(() => {
-    const handleFocus = () => setDummy(prev => prev + 1);
-    window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
-  }, []);
+  const handleFocus = () => setDummy(prev => prev + 1);
+  const handleStorage = () => setDummy(prev => prev + 1); // triggers if localStorage changes
+
+  window.addEventListener("focus", handleFocus);
+  window.addEventListener("storage", handleStorage);
+
+  return () => {
+    window.removeEventListener("focus", handleFocus);
+    window.removeEventListener("storage", handleStorage);
+  };
+}, []);
 
   const getProgressForSub = (subId) => {
-  const allProgress =
-    JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
-
+  const allProgress = JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
   const subProgress = allProgress[subId];
 
   if (!subProgress) {
@@ -55,7 +59,7 @@ export default function SubCategories() {
 
   return (
     <SubjectCard
-      key={sub.id}
+      key={`${sub.id}-${dummy}`}
       name={sub.name}
       image={sub.image_url}
       onClick={() => navigate(`/questions/${sub.id}`)}
