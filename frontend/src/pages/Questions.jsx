@@ -137,12 +137,11 @@ const resetProgress = () => {
       
 
               {/* STICKY CONTROLS */}
-<div className="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-zinc-800">
+<div className="sticky top-16 z-40 backdrop-blur bg-black/40 border-b border-zinc-800">
   <div
     dir="rtl"
     className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
   >
-    {/* Back */}
     <button
       onClick={() => navigate(-1)}
       className="flex items-center gap-2 px-4 py-2 rounded-full
@@ -152,7 +151,6 @@ const resetProgress = () => {
       חזרה
     </button>
 
-    {/* Restart */}
     <button
       onClick={resetProgress}
       className="flex items-center gap-2 px-4 py-2 rounded-full
