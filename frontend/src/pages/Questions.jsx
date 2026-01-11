@@ -137,23 +137,25 @@ const resetProgress = () => {
       
 
               {/* STICKY CONTROLS */}
-<div className="sticky top-16 z-40 backdrop-blur bg-black/40 border-b border-zinc-800">
+<div className="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-zinc-800">
   <div
     dir="rtl"
     className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
   >
+    {/* Back */}
     <button
       onClick={() => navigate(-1)}
-      className="flex items-center gap-2 px-4 py-2 rounded-full
+      className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-full
       bg-zinc-800 hover:bg-zinc-700 text-white transition"
     >
       <FaArrowRight />
       חזרה
     </button>
 
+    {/* Restart */}
     <button
       onClick={resetProgress}
-      className="flex items-center gap-2 px-4 py-2 rounded-full
+      className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-full
       bg-rose-600/90 hover:bg-rose-600 text-white transition"
     >
       <FaRedo />
@@ -223,6 +225,7 @@ const resetProgress = () => {
               {q.img_url && (
                 <div className="flex justify-center mb-6">
                 <motion.img
+                  draggable={false}
                   whileHover={{ scale: 1.05 }}
                   whileTap = {{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 250, damping:20 }}
