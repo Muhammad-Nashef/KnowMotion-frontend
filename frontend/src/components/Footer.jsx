@@ -1,5 +1,4 @@
 export default function Footer({isDark}) {
-  console.log("Footer isDark:", isDark);
   return (
     <footer
         className="mt-auto border-t"
