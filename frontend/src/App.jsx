@@ -19,7 +19,7 @@ function App() {
       {/* Public Layout*/}
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/sub-categories/:mainCategoryId" element={<SubCategories />} />
+        <Route path="/sub-categories/:mainCategoryId" element={<SubCategories />}   key={window.location.pathname} />
         <Route path="/questions/:subCategoryId" element={<Questions />} />
         {/* Protected Admin Dashboard */}
         <Route path="/admin-dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>}/>

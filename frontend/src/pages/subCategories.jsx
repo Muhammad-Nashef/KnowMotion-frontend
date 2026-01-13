@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SubjectCard from "../components/subjectCard";
 import { useOutletContext } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function SubCategories() {
   const {isDark} = useOutletContext();
@@ -9,8 +10,15 @@ export default function SubCategories() {
   const [subCategories, setSubCategories] = useState([]);
   const [mainCategoryName, setMainCategoryName] = useState("");
   const navigate = useNavigate();
-  const [dummy, setDummy] = useState(0);
-  const [, setRerender] = useState(0);
+  const [progress, setProgress] = useState({});
+  const location = useLocation();
+  
+  
+  useEffect(() => {
+  const saved = JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
+  setProgress(saved);
+}, [location]);
+
 
   useEffect(() => {
     fetch(`https://knowmotion.onrender.com/sub-categories/${mainCategoryId}`)
@@ -21,32 +29,20 @@ export default function SubCategories() {
       });
   }, [mainCategoryId]);
 
-  useEffect(() => {
-  const handleFocus = () => setRerender(prev => prev + 1);
-  const handleStorage = () => setRerender(prev => prev + 1);
-
-  window.addEventListener("focus", handleFocus);
-  window.addEventListener("storage", handleStorage);
-
-  return () => {
-    window.removeEventListener("focus", handleFocus);
-    window.removeEventListener("storage", handleStorage);
-  };
-}, []);
 
   const getProgressForSub = (subId) => {
-  const allProgress = JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
-  const subProgress = allProgress[subId];
+  const subProgress = progress[subId];
 
   if (!subProgress) {
     return { answered: 0, total: 0 };
   }
 
-  const answered = Object.keys(subProgress.answers || {}).length;
-  const total = subProgress.total || 0;
-
-    return { answered, total };
+  return {
+    answered: Object.keys(subProgress.answers || {}).length,
+    total: subProgress.total || 0
+  };
 };
+
 
   return (
     <div className={`page-container ${isDark ? "theme-dark" : "theme-light"}`}>

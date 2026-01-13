@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaSun, FaMoon, FaSignOutAlt, FaTools  } from "react-icons/fa";
+import { FaUserCircle, FaSun, FaMoon, FaSignOutAlt, FaTools,FaInfoCircle  } from "react-icons/fa";
 import logo from "/quizdriveIcon.png";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
@@ -144,14 +144,28 @@ export default function Header({ isDark, setIsDark,user,setUser }) {
 </span>
 </div>
 
+      
+
       {/* Controls */}
       <div className="flex items-center space-x-4">
+        {/* Info Icon with Tooltip */}
+  <div className="relative group">
+    <FaInfoCircle className="text-gray-400 cursor-pointer" />
+
+    {/* Tooltip */}
+    <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2
+                    bg-gray-800 text-white text-xs rounded px-2 py-1
+                    opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+      חלק מהשאלות הן ממבחני מה"ט
+    </div>
+  </div>
+
         {/* Dark / Light */}
         <button
           onClick={() => setIsDark(!isDark)}
           className="p-2 rounded-lg border border-gray-500 hover:bg-gray-700 transition"
         >
-          {isDark ? <FaMoon /> : <FaSun />}
+          {isDark ? <FaSun /> : <FaMoon />}
         </button>
 
 

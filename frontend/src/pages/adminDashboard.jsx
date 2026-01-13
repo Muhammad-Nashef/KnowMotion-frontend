@@ -753,15 +753,17 @@ const confirmDeleteQuestion = (questionId) => {
         </label>
             {editSub.newIconFile ? (
   <img
+  draggable="false"
     src={URL.createObjectURL(editSub.newIconFile)}
     alt="New icon preview"
-    className="h-12 w-12 mb-2 rounded"
+    className="h-12 w-12 mb-2 rounded select-none pointer-events-none"
   />
 ) : editSub.image_url ? (
   <img
+  draggable="false"
     src={editSub.image_url}
     alt="Current icon"
-    className="h-12 w-12 mb-2 rounded"
+    className="h-12 w-12 mb-2 rounded select-none pointer-events-none"
   />
 ) : null}
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import { jwtDecode } from "jwt-decode";
+import Footer from "../components/Footer";
 
 export default function Layout() {
   const [isDark, setIsDark] = useState(true);
@@ -33,6 +34,7 @@ export default function Layout() {
       <Header isDark={isDark} setIsDark={setIsDark} user={user} setUser={setUser} />
       {/* Routed pages */}
       <Outlet context={{ isDark, user,setUser }} />
+      <Footer isDark={isDark} />
     </div>
   );
 }

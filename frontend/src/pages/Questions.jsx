@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { FaArrowRight, FaRedo } from "react-icons/fa";
+import { FaArrowRight, FaRedo, FaArrowUp, FaArrowLeft } from "react-icons/fa";
 
 export default function Questions() {
 
@@ -93,8 +93,10 @@ export default function Questions() {
 
   const allProgress =
     JSON.parse(localStorage.getItem("knowmotion_progress")) || {};
-
+  const prevProgress = allProgress[subCategoryId] || {};
+  
   allProgress[subCategoryId] = {
+    total: prevProgress.total,
     answers: updated
   };
 
@@ -137,30 +139,44 @@ const resetProgress = () => {
       
 
               {/* STICKY CONTROLS */}
-<div className="sticky top-16 z-40 backdrop-blur bg-black/40 border-b border-zinc-800">
+<div className="sticky top-30 z-40 backdrop-blur bg-gray/40 border-b border-zinc-800">
   <div
     dir="rtl"
     className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
   >
-    {/* Back */}
-    <button
-      onClick={() => navigate(-1)}
-      className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-full
-      bg-zinc-800 hover:bg-zinc-700 text-white transition"
-    >
-      <FaArrowRight />
-      חזרה
-    </button>
+    
 
+    {/* Scroll to Top */}
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-full
+      bg-blue-600/90 hover:bg-blue-600 text-white transition"
+    >
+      <FaArrowUp size= {16} className="relative transition-transform duration-300 hover:-translate-y-2 hover:animate-bounce" />
+    </button>
+    
     {/* Restart */}
     <button
       onClick={resetProgress}
       className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-full
       bg-rose-600/90 hover:bg-rose-600 text-white transition"
     >
-      <FaRedo />
-      התחל מחדש
+      <FaRedo className="transition-transform duration-500 hover:animate-spin" />
     </button>
+
+
+    {/* Back */}
+    <button
+      onClick={() => navigate(-1,{
+      state: { progressUpdated: true }
+    })}
+      className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-full
+      bg-zinc-800 hover:bg-zinc-700 text-white transition"
+    >
+      <FaArrowLeft className="transition-transform duration-300 hover:-translate-x-2"/>
+    </button>
+
+
   </div>
 </div>
       
@@ -231,7 +247,7 @@ const resetProgress = () => {
                   transition={{ type: "spring", stiffness: 250, damping:20 }}
                   src={q.img_url}
                   
-                  className="rounded-2xl shadow-2xl object-contain w-full max-w-3xl max-h-[300px]"
+                  className="rounded-2xl shadow-2xl object-contain w-full max-w-3xl max-h-[300px] select-none pointer-events-none"
                 />
                 </div>
               )}
