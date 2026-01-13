@@ -121,7 +121,9 @@ export default function Header({ isDark, setIsDark,user,setUser }) {
   <motion.img
     src={logo}
     alt="הנעת ידע"
-    className="h-14 relative z-10 select-none"
+    className="h-14 relative z-10 select-none transition
+    dark:brightness-0 dark:invert
+    dark:drop-shadow-[0_0_4px_rgba(255,255,255,0.5)]"
     whileHover={{ rotate: -2, scale: 1.05 }}
     transition={{ type: "spring", stiffness: 200 }}
     draggable={false}
@@ -165,7 +167,7 @@ export default function Header({ isDark, setIsDark,user,setUser }) {
           onClick={() => setIsDark(!isDark)}
           className="p-2 rounded-lg border border-gray-500 hover:bg-gray-700 transition"
         >
-          {isDark ? <FaSun /> : <FaMoon />}
+          {isDark ? <FaSun className="text-yellow-400" /> : <FaMoon className="text-gray-800 hover:text-white" />}
         </button>
 
 

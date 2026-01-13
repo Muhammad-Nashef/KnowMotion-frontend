@@ -6,7 +6,7 @@ const SubjectCard = ({ name, image, onClick, isDark, answered = 0, total = 0, cl
   return (
     <motion.div
       onClick={onClick}
-      className={`${isDark ? "bg-[#404040] border-zinc-800" : "bg-gray-300 border-gray-500"} relative rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-accent-primary ${className}`}
+      className={`${isDark ? "bg-[#505050] border-zinc-800" : "bg-gray-300 border-gray-500"} relative rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-accent-primary ${className}`}
       whileHover={{ scale: 1.04, boxShadow: "0 0 50px #388bd4ff" }}
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 700, damping: 50 }}
@@ -33,7 +33,10 @@ const SubjectCard = ({ name, image, onClick, isDark, answered = 0, total = 0, cl
       <img
         src={image}
         alt={name}
-        className="w-16 h-16 mb-5 object-contain opacity-90 z-10"
+        className={`
+    w-16 h-16 mb-5 object-contain opacity-90 z-10 transition
+    ${isDark ? "dark:brightness-50 dark:invert-[0.9] dark:drop-shadow-[0_0_4px_rgba(224,224,224,0.2)]" : ""}
+  `}
       />
       <h2
         className={`text-lg font-semibold text-center bg-clip-text text-transparent bg-gradient-to-r ${
